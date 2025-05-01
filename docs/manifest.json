@@ -1,19 +1,19 @@
 {
     "name": "EuroNatoMap",
     "short_name": "EuroNatoMap",
-    "description": "",
+    "description": "Your one-stop interactive map 🗺️ for all things EU & NATO 🌐! Switch between views to explore EU members, candidates, potential candidates, NATO members, & aspirants in vivid colors 🎨, with a dynamic legend 📜 & popups full of info. 🚀 MIT License.",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#",
-    "theme_color": "#",
+    "background_color": "#003399",
+    "theme_color": "#003399",
     "icons": [
         {
-            "src": "",
+            "src": "https://eliasdehondt.github.io/EuroMap/assets/media/images/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "",
+            "src": "https://eliasdehondt.github.io/EuroMap/assets/media/images/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }

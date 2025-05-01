@@ -1,0 +1,55 @@
+/**
+    * @author  EliasDH Team
+    * @see https://eliasdh.com
+    * @since 01/01/2025
+**/
+
+/* Global Styles */
+:root[data-theme="light"] {
+    --text: #0b111d;
+    --background: #f7f9fc;
+    --primary: #003399;
+    --secondary: #88a5df;
+    --accent: #ffeb07;
+}
+
+:root[data-theme="dark"] {
+    --text: #e1e8f4;
+    --background: #030507;
+    --primary: #6699ff;
+    --secondary: #203e79;
+    --accent: #fae500;
+}
+
+:root {
+    --radius: 12px;
+    --spacing: 16px;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+/* Global Styles */
+
+/* Cursor */
+* {
+    cursor: url('https://eliasdehondt.github.io/EuroMap/assets/media/svg/cursor-auto.svg'), auto;
+}
+
+.cursor-default {
+    cursor: url('https://eliasdehondt.github.io/EuroMap/assets/media/svg/cursor-default.svg'), default;
+}
+
+.cursor-pointer {
+    cursor: url('https://eliasdehondt.github.io/EuroMap/assets/media/svg/cursor-pointer.svg'), pointer;
+}
+/* Cursor */
+
+/* Global Selection */
+::selection {
+    display: none;
+}
+/* Global Selection */
+
+/* Global Selection */
+::-webkit-scrollbar {
+    display: none;
+}
+/* Global Selection */

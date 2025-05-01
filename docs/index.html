@@ -1,179 +1,34 @@
 <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-            return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
 
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                    headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EuroNatoMap - Kaart met EU en NATO</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        body { margin: 0; font-family: Arial, sans-serif; }
-        #map { height: 100vh; width: 100%; }
-        h1 { position: absolute; top: 10px; left: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 10px; }
-        .info { position: absolute; bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.8); padding: 10px; z-index: 1000; }
-        .controls { position: absolute; top: 60px; left: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 10px; }
-        .controls button { margin: 5px; padding: 8px; cursor: pointer; }
-    </style>
-</head>
-<body>
-    <h1>EuroNatoMap</h1>
-    <div id="map"></div>
-    <div class="info" id="legend">
-        <b>Kleurenlegenda:</b><br>
-        <!-- Dynamisch bijgewerkt -->
-    </div>
-    <div class="controls">
-        <button onclick="showView('eu')">EU-landen</button>
-        <button onclick="showView('nato')">NATO-landen</button>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Initialiseer de kaart, gefocust op Europa
-        const map = L.map('map').setView([50, 10], 1);
-
-        // Voeg OpenStreetMap tegels toe
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Lijst van EU-landen (ISO 3166-1 alpha-2 codes)
-        const euCountries = [
-            'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
-            'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
-            'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'
-        ];
-
-        // Lijst van EU-kandidaat-lidstaten
-        const euCandidateCountries = [
-            'AL', 'BA', 'GE', 'MD', 'ME', 'MK', 'RS', 'TR', 'UA'
-        ];
-
-        // Lijst van EU-potentiele kandidaten
-        const euPotentialCandidates = ['XK'];
-
-        // Lijst van NATO-landen
-        const natoCountries = [
-            'AL', 'BE', 'BG', 'CA', 'HR', 'CZ', 'DK', 'EE', 'FI', 'FR',
-            'DE', 'GR', 'HU', 'IS', 'IT', 'LV', 'LT', 'LU', 'ME', 'NL',
-            'MK', 'NO', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'TR', 'GB',
-            'US', 'SE'
-        ];
-
-        // Lijst van NATO-aspirant-landen
-        const natoAspirantCountries = ['UA', 'GE'];
-
-        let geoJsonLayer;
-
-        // Functie om de legenda bij te werken
-        function updateLegend(view) {
-            const legend = document.getElementById('legend');
-            let legendContent = '<b>Kleurenlegenda:</b><br>';
-            if (view === 'eu') {
-                legendContent += 'Blauw: EU-landen<br>';
-                legendContent += 'Groen: EU-kandidaat-lidstaten<br>';
-                legendContent += 'Lichtblauw: EU-potentiele kandidaten<br>';
-                legendContent += 'Grijs: Geen lid';
-            } else if (view === 'nato') {
-                legendContent += 'Paars: NATO-landen<br>';
-                legendContent += 'Lichtpaars: NATO-aspirant-landen<br>';
-                legendContent += 'Grijs: Geen lid';
-            }
-            legend.innerHTML = legendContent;
-        }
-
-        // Functie om de kaartweergave te updaten
-        function showView(view) {
-            if (geoJsonLayer) map.removeLayer(geoJsonLayer);
-
-            // Werk de legenda bij
-            updateLegend(view);
-
-            fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
-                .then(response => response.json())
-                .then(data => {
-                    geoJsonLayer = L.geoJSON(data, {
-                        style: function(feature) {
-                            const isoCode = feature.properties.iso_a2;
-                            let fillColor = '#CCCCCC'; // Grijs voor niet-geselecteerde landen
-                            if (view === 'eu') {
-                                if (euCountries.includes(isoCode)) {
-                                    fillColor = '#0000FF'; // EU: blauw
-                                } else if (euCandidateCountries.includes(isoCode)) {
-                                    fillColor = '#00FF00'; // EU-kandidaat: groen
-                                } else if (euPotentialCandidates.includes(isoCode)) {
-                                    fillColor = '#00B7EB'; // EU-potentieel: lichtblauw
-                                }
-                            } else if (view === 'nato') {
-                                if (natoCountries.includes(isoCode)) {
-                                    fillColor = '#800080'; // NATO: paars
-                                } else if (natoAspirantCountries.includes(isoCode)) {
-                                    fillColor = '#B266B2'; // NATO-aspirant: lichtpaars
-                                }
-                            }
-                            return {
-                                fillColor: fillColor,
-                                weight: 1,
-                                opacity: 1,
-                                color: 'white',
-                                fillOpacity: 0.7
-                            };
-                        },
-                        onEachFeature: function(feature, layer) {
-                            const countryName = feature.properties.name;
-                            const isoCode = feature.properties.iso_a2;
-                            let status = [];
-                            if (euCountries.includes(isoCode)) status.push('EU-lid');
-                            if (euCandidateCountries.includes(isoCode)) status.push('EU-kandidaat');
-                            if (euPotentialCandidates.includes(isoCode)) status.push('EU-potentiele kandidaat');
-                            if (natoCountries.includes(isoCode)) status.push('NATO-lid');
-                            if (natoAspirantCountries.includes(isoCode)) status.push('NATO-aspirant');
-                            if (status.length === 0) status.push('Geen lid');
-                            layer.bindPopup(`<b>${countryName}</b><br>Status: ${status.join(', ')}`);
-                        }
-                    }).addTo(map);
-                });
-        }
-
-        showView('eu');
-    </script>
-</body>
+        </script>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EuroMap</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <style>
+            body { margin: 0; font-family: Arial, sans-serif; }
+            #map { height: 100vh; width: 100%; }
+            h1 { position: absolute; top: 10px; left: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 10px; }
+            .info { position: absolute; bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.8); padding: 10px; z-index: 1000; }
+            .controls { position: absolute; top: 60px; left: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 10px; }
+            .controls button { margin: 5px; padding: 8px; cursor: pointer; }
+        </style>
+    </head>
+    <body>
+        <h1>EuroNatoMap</h1>
+        <div id="map"></div>
+        <div class="info" id="legend">
+            <b>Kleurenlegenda:</b>
+            <br>
+        </div>
+        <div class="controls">
+            <button onclick="showView('eu')">EU</button>
+            <button onclick="showView('nato')">NATO</button>
+        </div>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="https://eliasdehondt.github.io/EuroMap/assets/js/index.js"></script>
+    </body>
 </html>
