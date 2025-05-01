@@ -23,6 +23,7 @@ h1 {
     z-index: 1000;
     background: var(--primary);
     color: var(--background);
+    border-radius: 5px;
     padding: 10px;
 }
 
@@ -40,7 +41,6 @@ h1 {
     top: 100px;
     left: 20px;
     z-index: 1000;
-    background: var(--background);
     padding: 10px;
 }
 
