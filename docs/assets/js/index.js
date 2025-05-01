@@ -1,8 +1,13 @@
 /**
-             * @author EliasDH Team
-             * @see https://eliasdh.com
-             * @since 01/01/2025
-             **/
+    * @author  EliasDH Team
+    * @see https://eliasdh.com
+    * @since 01/01/2025
+**/
+
+// Load external content
+document.addEventListener('DOMContentLoaded', function() {
+    loadExternalContent("context-menu", "https://raw.githubusercontent.com/EliasDeHondt/EuroMap/refs/heads/main/docs/assets/includes/context-menu.html");
+});
 
 var gk_isXlsx = false;
 var gk_xlsxFileLookup = {};

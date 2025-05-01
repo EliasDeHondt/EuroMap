@@ -30,15 +30,15 @@
 
 /* Cursor */
 * {
-    cursor: url('https://eliasdehondt.github.io/EuroMap/assets/media/svg/cursor-auto.svg'), auto;
+    cursor: url('https://raw.githubusercontent.com/EliasDeHondt/EuroMap/refs/heads/main/docs/assets/media/svg/cursor-auto.svg'), auto;
 }
 
 .cursor-default {
-    cursor: url('https://eliasdehondt.github.io/EuroMap/assets/media/svg/cursor-default.svg'), default;
+    cursor: url('https://raw.githubusercontent.com/EliasDeHondt/EuroMap/refs/heads/main/docs/assets/media/svg/cursor-default.svg'), default;
 }
 
 .cursor-pointer {
-    cursor: url('https://eliasdehondt.github.io/EuroMap/assets/media/svg/cursor-pointer.svg'), pointer;
+    cursor: url('https://raw.githubusercontent.com/EliasDeHondt/EuroMap/refs/heads/main/docs/assets/media/svg/cursor-pointer.svg'), pointer;
 }
 /* Cursor */
 
