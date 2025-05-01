@@ -1,6 +1,6 @@
 {
-    "name": "EuroNatoMap",
-    "short_name": "EuroNatoMap",
+    "name": "EuroMap",
+    "short_name": "EuroMap",
     "description": "Your one-stop interactive map 🗺️ for all things EU & NATO 🌐! Switch between views to explore EU members, candidates, potential candidates, NATO members, & aspirants in vivid colors 🎨, with a dynamic legend 📜 & popups full of info. 🚀 MIT License.",
     "start_url": "/",
     "display": "standalone",
