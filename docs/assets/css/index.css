@@ -5,3 +5,46 @@
 **/
 
 @import url('https://eliasdehondt.github.io/EuroMap/assets/css/globel.css');
+
+body { 
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.index-map {
+    height: 100vh;
+    width: 100%;
+}
+
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+}
+
+.index-info {
+    position: absolute;
+    bottom: 10px; 
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    z-index: 1000;
+}
+
+.index-controls {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+}
+
+.index-controls button {
+    margin: 5px;
+    padding: 8px;
+    cursor: pointer;
+}

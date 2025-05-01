@@ -1,8 +1,8 @@
 /**
-    * @author  EliasDH Team
-    * @see https://eliasdh.com
-    * @since 01/01/2025
-**/
+             * @author EliasDH Team
+             * @see https://eliasdh.com
+             * @since 01/01/2025
+             **/
 
 var gk_isXlsx = false;
 var gk_xlsxFileLookup = {};
@@ -56,22 +56,22 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Lijst van EU-landen (ISO 3166-1 alpha-2 codes)
+// List of EU countries (ISO 3166-1 alpha-2 codes)
 const euCountries = [
     'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
     'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
     'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'
 ];
 
-// Lijst van EU-kandidaat-lidstaten
+// List of EU candidate countries
 const euCandidateCountries = [
     'AL', 'BA', 'GE', 'MD', 'ME', 'MK', 'RS', 'TR', 'UA'
 ];
 
-// Lijst van EU-potentiele kandidaten
+// List of EU potential candidates
 const euPotentialCandidates = ['XK'];
 
-// Lijst van NATO-landen
+// List of NATO countries
 const natoCountries = [
     'AL', 'BE', 'BG', 'CA', 'HR', 'CZ', 'DK', 'EE', 'FI', 'FR',
     'DE', 'GR', 'HU', 'IS', 'IT', 'LV', 'LT', 'LU', 'ME', 'NL',
@@ -79,23 +79,23 @@ const natoCountries = [
     'US', 'SE'
 ];
 
-// Lijst van NATO-aspirant-landen
+// List of NATO aspirant countries
 const natoAspirantCountries = ['UA', 'GE'];
 
 let geoJsonLayer;
 
 function updateLegend(view) {
     const legend = document.getElementById('legend');
-    let legendContent = '<b>Kleurenlegenda:</b><br>';
+    let legendContent = '<b>Color Legend:</b><br>';
     if (view === 'eu') {
-        legendContent += 'Blauw: EU-landen<br>';
-        legendContent += 'Groen: EU-kandidaat-lidstaten<br>';
-        legendContent += 'Lichtblauw: EU-potentiele kandidaten<br>';
-        legendContent += 'Grijs: Geen lid';
+        legendContent += '<span style="color: #003399;">■</span> Dark Blue: EU Countries<br>';
+        legendContent += '<span style="color: #ffeb07;">■</span> Yellow: EU Candidate Countries<br>';
+        legendContent += '<span style="color: #88a5df;">■</span> Light Blue: EU Potential Candidates<br>';
+        legendContent += '<span style="color: #f7f9fc;">■</span> Light Gray: Non-members';
     } else if (view === 'nato') {
-        legendContent += 'Paars: NATO-landen<br>';
-        legendContent += 'Lichtpaars: NATO-aspirant-landen<br>';
-        legendContent += 'Grijs: Geen lid';
+        legendContent += '<span style="color: #800080;">■</span> Purple: NATO Countries<br>';
+        legendContent += '<span style="color: #B266B2;">■</span> Light Purple: NATO Aspirant Countries<br>';
+        legendContent += '<span style="color: #f7f9fc;">■</span> Light Gray: Non-members';
     }
     legend.innerHTML = legendContent;
 }
@@ -108,40 +108,40 @@ function showView(view) {
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
         .then(response => response.json())
         .then(data => {
-            geoJsonLayer = L.geoJSON(data, {
-                style: function(feature) {
-                    const isoCode = feature.properties.iso_a2;
-                    let fillColor = '#f7f9fc';
-                    if (view === 'eu') {
-                        if (euCountries.includes(isoCode)) fillColor = '#003399';
-                        else if (euCandidateCountries.includes(isoCode)) fillColor = '#ffeb07';
-                        else if (euPotentialCandidates.includes(isoCode)) fillColor = '#88a5df';
-                    } else if (view === 'nato') {
-                        if (natoCountries.includes(isoCode)) fillColor = '#800080';
-                        else if (natoAspirantCountries.includes(isoCode)) fillColor = '#B266B2';
-                    }
-                    return {
-                        fillColor: fillColor,
-                        weight: 1,
-                        opacity: 1,
-                        color: 'white',
-                        fillOpacity: 0.7
-                    };
-                },
-                onEachFeature: function(feature, layer) {
-                    const countryName = feature.properties.name;
-                    const isoCode = feature.properties.iso_a2;
-                    let status = [];
-                    if (euCountries.includes(isoCode)) status.push('EU-lid');
-                    if (euCandidateCountries.includes(isoCode)) status.push('EU-kandidaat');
-                    if (euPotentialCandidates.includes(isoCode)) status.push('EU-potentiele kandidaat');
-                    if (natoCountries.includes(isoCode)) status.push('NATO-lid');
-                    if (natoAspirantCountries.includes(isoCode)) status.push('NATO-aspirant');
-                    if (status.length === 0) status.push('Geen lid');
-                    layer.bindPopup(`<b>${countryName}</b><br>Status: ${status.join(', ')}`);
+        geoJsonLayer = L.geoJSON(data, {
+            style: function(feature) {
+                const isoCode = feature.properties.iso_a2;
+                let fillColor = '#f7f9fc'; // Light Gray for non-members
+                if (view === 'eu') {
+                    if (euCountries.includes(isoCode)) fillColor = '#003399'; // Dark Blue
+                    else if (euCandidateCountries.includes(isoCode)) fillColor = '#ffeb07'; // Yellow
+                    else if (euPotentialCandidates.includes(isoCode)) fillColor = '#88a5df'; // Light Blue
+                } else if (view === 'nato') {
+                    if (natoCountries.includes(isoCode)) fillColor = '#800080'; // Purple
+                    else if (natoAspirantCountries.includes(isoCode)) fillColor = '#B266B2'; // Light Purple
                 }
-            }).addTo(map);
-        });
+                return {
+                    fillColor: fillColor,
+                    weight: 1,
+                    opacity: 1,
+                    color: 'white',
+                    fillOpacity: 0.7
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                const countryName = feature.properties.name;
+                const isoCode = feature.properties.iso_a2;
+                let status = [];
+                if (euCountries.includes(isoCode)) status.push('EU Member');
+                if (euCandidateCountries.includes(isoCode)) status.push('EU Candidate');
+                if (euPotentialCandidates.includes(isoCode)) status.push('EU Potential Candidate');
+                if (natoCountries.includes(isoCode)) status.push('NATO Member');
+                if (natoAspirantCountries.includes(isoCode)) status.push('NATO Aspirant');
+                if (status.length === 0) status.push('Non-member');
+                layer.bindPopup(`<b>${countryName}</b><br>Status: ${status.join(', ')}`);
+            }
+        }).addTo(map);
+    });
 }
 
 showView('eu');

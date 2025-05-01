@@ -1,32 +1,23 @@
-<script type="text/javascript">
-
-        </script>
 <!DOCTYPE html>
+<!-- Author EliasDH Team -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>EuroMap</title>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-        <style>
-            body { margin: 0; font-family: Arial, sans-serif; }
-            #map { height: 100vh; width: 100%; }
-            h1 { position: absolute; top: 10px; left: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 10px; }
-            .info { position: absolute; bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.8); padding: 10px; z-index: 1000; }
-            .controls { position: absolute; top: 60px; left: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.8); padding: 10px; }
-            .controls button { margin: 5px; padding: 8px; cursor: pointer; }
-        </style>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <link rel="stylesheet" href="https://eliasdehondt.github.io/EuroMap/assets/css/index.css"/>
     </head>
     <body>
-        <h1>EuroNatoMap</h1>
-        <div id="map"></div>
-        <div class="info" id="legend">
-            <b>Kleurenlegenda:</b>
+        <h1>EuroMap</h1>
+        <div class"index-map" id="map"></div>
+        <div class="index-info" id="legend">
+            <b>Color legend:</b>
             <br>
         </div>
-        <div class="controls">
-            <button onclick="showView('eu')">EU</button>
-            <button onclick="showView('nato')">NATO</button>
+        <div class="index-controls">
+            <button class="cursor-pointer" onclick="showView('eu')">EU</button>
+            <button class="cursor-pointer" onclick="showView('nato')">NATO</button>
         </div>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script src="https://eliasdehondt.github.io/EuroMap/assets/js/index.js"></script>
