@@ -1,0 +1,7 @@
+User-agent: *
+Allow: index.html
+Allow: /assets/
+
+Sitemap: https://blog.buckingham.eliasdh.com/sitemap.xml
+
+Crawl-delay: 5

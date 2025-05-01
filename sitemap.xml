@@ -1,0 +1,19 @@
+<!--Author EliasDH Team-->
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>https://blog.buckingham.eliasdh.com/</loc>
+      <lastmod>2025-01-01</lastmod>
+      <priority>0.1</priority>
+   </url>
+      <url>
+      <loc>https://blog.buckingham.eliasdh.com/eliasdehondt.html</loc>
+      <lastmod>2025-01-01</lastmod>
+      <priority>0.1</priority>
+   </url>
+      <url>
+      <loc>https://blog.buckingham.eliasdh.com/kobewijnants.html</loc>
+      <lastmod>2025-01-01</lastmod>
+      <priority>0.1</priority>
+   </url>
+</urlset>
