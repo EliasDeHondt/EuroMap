@@ -61,7 +61,6 @@
         <!-- Dynamisch bijgewerkt -->
     </div>
     <div class="controls">
-        <button onclick="showView('all')">Alles tonen</button>
         <button onclick="showView('eu')">EU-landen</button>
         <button onclick="showView('nato')">NATO-landen</button>
     </div>
@@ -69,7 +68,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Initialiseer de kaart, gefocust op Europa
-        const map = L.map('map').setView([50, 10], 4);
+        const map = L.map('map').setView([50, 10], 1);
 
         // Voeg OpenStreetMap tegels toe
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -108,14 +107,7 @@
         function updateLegend(view) {
             const legend = document.getElementById('legend');
             let legendContent = '<b>Kleurenlegenda:</b><br>';
-            if (view === 'all') {
-                legendContent += 'Blauw: EU-landen<br>';
-                legendContent += 'Groen: EU-kandidaat-lidstaten<br>';
-                legendContent += 'Lichtblauw: EU-potentiele kandidaten<br>';
-                legendContent += 'Paars: NATO-landen<br>';
-                legendContent += 'Lichtpaars: NATO-aspirant-landen<br>';
-                legendContent += 'Grijs: Geen lid';
-            } else if (view === 'eu') {
+            if (view === 'eu') {
                 legendContent += 'Blauw: EU-landen<br>';
                 legendContent += 'Groen: EU-kandidaat-lidstaten<br>';
                 legendContent += 'Lichtblauw: EU-potentiele kandidaten<br>';
@@ -130,9 +122,7 @@
 
         // Functie om de kaartweergave te updaten
         function showView(view) {
-            if (geoJsonLayer) {
-                map.removeLayer(geoJsonLayer);
-            }
+            if (geoJsonLayer) map.removeLayer(geoJsonLayer);
 
             // Werk de legenda bij
             updateLegend(view);
@@ -144,19 +134,7 @@
                         style: function(feature) {
                             const isoCode = feature.properties.iso_a2;
                             let fillColor = '#CCCCCC'; // Grijs voor niet-geselecteerde landen
-                            if (view === 'all') {
-                                if (euCountries.includes(isoCode)) {
-                                    fillColor = '#0000FF'; // EU: blauw
-                                } else if (euCandidateCountries.includes(isoCode)) {
-                                    fillColor = '#00FF00'; // EU-kandidaat: groen
-                                } else if (euPotentialCandidates.includes(isoCode)) {
-                                    fillColor = '#00B7EB'; // EU-potentieel: lichtblauw
-                                } else if (natoCountries.includes(isoCode)) {
-                                    fillColor = '#800080'; // NATO: paars
-                                } else if (natoAspirantCountries.includes(isoCode)) {
-                                    fillColor = '#B266B2'; // NATO-aspirant: lichtpaars
-                                }
-                            } else if (view === 'eu') {
+                            if (view === 'eu') {
                                 if (euCountries.includes(isoCode)) {
                                     fillColor = '#0000FF'; // EU: blauw
                                 } else if (euCandidateCountries.includes(isoCode)) {
@@ -195,8 +173,7 @@
                 });
         }
 
-        // Toon standaard de 'alles'-weergave
-        showView('all');
+        showView('eu');
     </script>
 </body>
 </html>
