@@ -4,7 +4,7 @@
     * @since 01/01/2025
 **/
 
-@import url('https://eliasdehondt.github.io/EuroMapassets/css/globel.css');
+@import url('https://eliasdehondt.github.io/EuroMap/assets/css/globel.css');
 
 body { 
     margin: 0;
@@ -21,7 +21,8 @@ h1 {
     top: 10px;
     left: 20px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--primary);
+    color: var(--background);
     padding: 10px;
 }
 
@@ -29,7 +30,7 @@ h1 {
     position: absolute;
     bottom: 10px; 
     right: 10px;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--background);
     padding: 10px;
     z-index: 1000;
 }
@@ -39,12 +40,19 @@ h1 {
     top: 100px;
     left: 20px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--background);
     padding: 10px;
 }
 
 .index-controls button {
-    margin: 5px;
-    padding: 8px;
-    cursor: pointer;
+    background: var(--primary);
+    color: var(--background);
+    border: none;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.index-controls button:hover {
+    background: var(--accent);
 }
