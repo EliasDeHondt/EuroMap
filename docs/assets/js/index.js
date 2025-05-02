@@ -110,6 +110,8 @@ function showView(view) {
 
     updateLegend(view);
 
+    map.getContainer().classList.add('cursor-pointer');
+
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
         .then(response => response.json())
         .then(data => {
