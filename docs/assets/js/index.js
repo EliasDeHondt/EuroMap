@@ -91,7 +91,7 @@ let geoJsonLayer;
 
 function updateLegend(view) {
     const legend = document.getElementById('legend');
-    let legendContent = '<b>Color Legend:</b><br>';
+    let legendContent = '<p>Color Legend:</p>';
     if (view === 'eu') {
         legendContent += '<span style="color: #003399;">■</span> Dark Blue: EU Countries<br>';
         legendContent += '<span style="color: #ffeb07;">■</span> Yellow: EU Candidate Countries<br>';
